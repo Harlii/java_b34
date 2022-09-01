@@ -25,7 +25,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("home"), contactData.getHomenumber());
     type(By.name("email"), contactData.getEmail());
 
-    if (creation == true) {
+    if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -51,5 +51,14 @@ public class ContactHelper extends HelperBase {
 
   public void submitContactModification() {
     click(By.name("update"));
+  }
+
+  public void createContact(ContactData contact, boolean creation) {
+    fillContactForm(contact, creation);
+    submitContactCreation();
+  }
+
+  public boolean isThereAContact() {
+    return isElementPresent(By.name("selected[]"));
   }
 }
