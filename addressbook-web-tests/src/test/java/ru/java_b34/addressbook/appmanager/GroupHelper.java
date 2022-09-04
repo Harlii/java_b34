@@ -1,13 +1,15 @@
 package ru.java_b34.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import ru.java_b34.addressbook.model.GroupData;
 
 public class GroupHelper extends HelperBase {
 
-  public GroupHelper(WebDriver wd) {
-    super(wd);
+  public ApplicationManager manager;
+
+  public GroupHelper(ApplicationManager manager) {
+    super(manager.wd);
+    this.manager = manager;
   }
 
   public void initGroupCreation() {
@@ -41,12 +43,27 @@ public class GroupHelper extends HelperBase {
   }
 
   public void createGroup(GroupData group) {
+    manager.getNavigationHelper().goToGroupPage();
     initGroupCreation();
     fillGroupForm(group);
     submitGroupCreation();
+    manager.getNavigationHelper().goToGroupPage();
   }
 
   public boolean isThereAGroup() {
     return isElementPresent(By.name("selected[]"));
+  }
+
+  public boolean isThereAGroup(String name) {
+    return isElementPresent(By.linkText(name));
+  }
+
+  public void modificationGroup(GroupData group) {
+    manager.getNavigationHelper().goToGroupPage();
+    selectGroup();
+    initGroupModification();
+    fillGroupForm(group);
+    submitGroupModification();
+    manager.getNavigationHelper().goToGroupPage();
   }
 }

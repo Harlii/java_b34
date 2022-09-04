@@ -6,7 +6,7 @@ import ru.java_b34.addressbook.model.GroupData;
 public class GroupDeletionTests extends TestBase {
 
   @Test
-  public void testGroupDeletionTests() throws Exception {
+  public void testGroupDeletionTests() {
     app.getNavigationHelper().goToGroupPage();
     if (! app.getGroupHelper().isThereAGroup()) {
       app.getGroupHelper().createGroup(new GroupData("Work", "Work_logo", "Work_comment"));

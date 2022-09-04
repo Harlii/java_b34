@@ -11,17 +11,11 @@ public class ContactModificationTests extends TestBase {
     app.getNavigationHelper().goToHomePage();
     if (! app.getContactHelper().isThereAContact()) {
       app.getNavigationHelper().goToGroupPage();
-      if (! app.getGroupHelper().isThereAGroup()) {
+      if (! app.getGroupHelper().isThereAGroup("Work")) {
         app.getGroupHelper().createGroup(new GroupData("Work", "Work_logo", "Work_comment"));
       }
-      app.getNavigationHelper().goToContactPage();
-      app.getContactHelper().createContact(new ContactData("Dmitrii", "V", "Kharlan", "Harli", "Title", "Company", "Russia", "89995554466", "test@gmail.com", "Work"), true);
-      app.getNavigationHelper().goToHomePage();
+      app.getContactHelper().createContact(new ContactData("Dmitrii", "V", "Kharlan", "Harli", "Title", "Company", "Russia", "89995554466", "test@gmail.com", "Work"));
     }
-    app.getContactHelper().selectContact();
-    app.getContactHelper().initContactModification();
-    app.getContactHelper().fillContactForm(new ContactData("Dmitrii_modification", "V_modification", "Kharlan_modification", "Harli_modification", "Title_modification", "Company_modification", "Russia_modification", "89995554466", "test_modification@gmail.com", null), false);
-    app.getContactHelper().submitContactModification();
-    app.getNavigationHelper().goToHomePage();
+    app.getContactHelper().modificationContact(new ContactData("Dmitrii_modification", "V_modification", "Kharlan_modification", "Harli_modification", "Title_modification", "Company_modification", "Russia_modification", "89995554466", "test_modification@gmail.com", null));
   }
 }

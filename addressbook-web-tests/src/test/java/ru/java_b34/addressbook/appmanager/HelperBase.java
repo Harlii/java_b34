@@ -3,7 +3,7 @@ package ru.java_b34.addressbook.appmanager;
 import org.openqa.selenium.*;
 
 public class HelperBase {
-  protected WebDriver wd;
+  WebDriver wd;
   private boolean acceptNextAlert = true;
 
   public HelperBase(WebDriver wd) {

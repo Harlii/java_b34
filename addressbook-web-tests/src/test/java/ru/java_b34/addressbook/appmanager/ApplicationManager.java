@@ -9,7 +9,7 @@ import java.time.Duration;
 
 public class ApplicationManager {
 
-  private WebDriver wd;
+  WebDriver wd;
 
   private ContactHelper contactHelper;
   private SessionHelper sessionHelper;
@@ -29,10 +29,10 @@ public class ApplicationManager {
     }
     wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
     wd.get("http://localhost/addressbook/");
-    groupHelper = new GroupHelper(wd);
+    groupHelper = new GroupHelper(this);
     navigationHelper = new NavigationHelper(wd);
     sessionHelper = new SessionHelper(wd);
-    contactHelper = new ContactHelper(wd);
+    contactHelper = new ContactHelper(this);
     sessionHelper.login("admin", "secret");
   }
 

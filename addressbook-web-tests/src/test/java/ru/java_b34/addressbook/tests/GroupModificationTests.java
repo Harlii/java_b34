@@ -6,16 +6,12 @@ import ru.java_b34.addressbook.model.GroupData;
 public class GroupModificationTests extends TestBase {
 
   @Test
-  public void testGroupModification() throws Exception {
+  public void testGroupModification() {
     app.getNavigationHelper().goToGroupPage();
     if (! app.getGroupHelper().isThereAGroup()) {
       app.getGroupHelper().createGroup(new GroupData("Work", "Work_logo", "Work_comment"));
       app.getNavigationHelper().goToGroupPage();
     }
-    app.getGroupHelper().selectGroup();
-    app.getGroupHelper().initGroupModification();
-    app.getGroupHelper().fillGroupForm(new GroupData("Work_modification", "Work_logo_modification", "Work_comment_modification"));
-    app.getGroupHelper().submitGroupModification();
-    app.getNavigationHelper().goToGroupPage();
+    app.getGroupHelper().modificationGroup(new GroupData("Work_modification", "Work_logo_modification", "Work_comment_modification"));
   }
 }
