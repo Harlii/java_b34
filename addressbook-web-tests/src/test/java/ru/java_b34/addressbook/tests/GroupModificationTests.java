@@ -14,7 +14,7 @@ public class GroupModificationTests extends TestBase {
       app.getGroupHelper().createGroup(new GroupData("Work", "Work_logo", "Work_comment"));
       app.getNavigationHelper().goToGroupPage();
     }
-    app.getGroupHelper().modificationGroup(new GroupData("Work_modification", "Work_logo_modification", "Work_comment_modification"));
+    app.getGroupHelper().modificationGroup(new GroupData("Work_modification", "Work_logo_modification", "Work_comment_modification"), 0);
     int after = app.getGroupHelper().getGroupCount();
     Assert.assertEquals(after, before);
   }

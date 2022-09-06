@@ -18,7 +18,7 @@ public class ContactModificationTests extends TestBase {
       }
       app.getContactHelper().createContact(new ContactData("Dmitrii", "V", "Kharlan", "Harli", "Title", "Company", "Russia", "89995554466", "test@gmail.com", "Work"));
     }
-    app.getContactHelper().modificationContact(new ContactData("Dmitrii_modification", "V_modification", "Kharlan_modification", "Harli_modification", "Title_modification", "Company_modification", "Russia_modification", "89995554466", "test_modification@gmail.com", null));
+    app.getContactHelper().modificationContact(new ContactData("Dmitrii_modification", "V_modification", "Kharlan_modification", "Harli_modification", "Title_modification", "Company_modification", "Russia_modification", "89995554466", "test_modification@gmail.com", null), 0);
     int after = app.getContactHelper().getContactCount();
     Assert.assertEquals(after, before);
   }

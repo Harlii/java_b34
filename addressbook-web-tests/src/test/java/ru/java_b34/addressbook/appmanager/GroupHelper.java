@@ -26,8 +26,8 @@ public class GroupHelper extends HelperBase {
     click(By.name("submit"));
   }
 
-  public void selectGroup() {
-    click(By.name("selected[]"));
+  public void selectGroup(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
   public void deleteSelectedGroup() {
@@ -55,12 +55,12 @@ public class GroupHelper extends HelperBase {
   }
 
   public boolean isThereAGroup(String name) {
-    return isElementPresent(By.linkText(name));
+    return isElementPresent(By.xpath("//span[.='" + name + "']"));
   }
 
-  public void modificationGroup(GroupData group) {
+  public void modificationGroup(GroupData group, int index) {
     manager.getNavigationHelper().goToGroupPage();
-    selectGroup();
+    selectGroup(index);
     initGroupModification();
     fillGroupForm(group);
     submitGroupModification();

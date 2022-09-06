@@ -38,12 +38,12 @@ public class ContactHelper extends HelperBase {
     click(By.name("submit"));
   }
 
-  public void selectContact() {
-    click(By.name("selected[]"));
+  public void selectContact(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
   public void deleteSelectedContact() {
-    click(By.xpath("//input[@value='Delete']"));
+    click(By.cssSelector("input[value='Delete']"));
     assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
   }
 
@@ -62,9 +62,9 @@ public class ContactHelper extends HelperBase {
     manager.getNavigationHelper().goToHomePage();
   }
 
-  public void modificationContact(ContactData contact) {
+  public void modificationContact(ContactData contact, int index) {
     manager.getNavigationHelper().goToContactPage();
-    manager.getContactHelper().selectContact();
+    manager.getContactHelper().selectContact(index);
     manager.getContactHelper().initContactModification();
     fillContactForm(contact, false);
     submitContactModification();
