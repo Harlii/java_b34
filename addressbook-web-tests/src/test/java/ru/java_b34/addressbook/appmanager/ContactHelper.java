@@ -1,12 +1,9 @@
 package ru.java_b34.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.java_b34.addressbook.model.ContactData;
-import ru.java_b34.addressbook.model.GroupData;
 
 import static org.testng.Assert.assertTrue;
 
@@ -76,5 +73,10 @@ public class ContactHelper extends HelperBase {
 
   public boolean isThereAContact() {
     return isElementPresent(By.name("selected[]"));
+  }
+
+  public int getContactCount() {
+    manager.getNavigationHelper().goToHomePage();
+    return wd.findElements(By.name("selected[]")).size();
   }
 }
