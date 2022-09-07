@@ -1,9 +1,14 @@
 package ru.java_b34.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.java_b34.addressbook.model.ContactData;
+import ru.java_b34.addressbook.model.GroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -78,5 +83,20 @@ public class ContactHelper extends HelperBase {
   public int getContactCount() {
     manager.getNavigationHelper().goToHomePage();
     return wd.findElements(By.name("selected[]")).size();
+  }
+
+  public List<ContactData> getContactList() {
+    List<ContactData> contacts = new ArrayList<ContactData>();
+    List<WebElement> elements = wd.findElements(By.name("entry"));
+    for (WebElement element : elements) {
+      List<WebElement> cell = element.findElements(By.tagName("td"));
+      String lastname = cell.get(1).getText();
+      String firstname = cell.get(2).getText();
+      String email = cell.get(4).getText();
+      String homenumber = cell.get(5).getText();
+      ContactData contact = new ContactData(firstname, null, lastname, null, null, null, null, homenumber, email, null);
+      contacts.add(contact);
+    }
+    return contacts;
   }
 }
