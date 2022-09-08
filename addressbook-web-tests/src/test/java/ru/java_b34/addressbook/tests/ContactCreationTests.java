@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.GroupData;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
@@ -17,11 +18,15 @@ public class ContactCreationTests extends TestBase {
     }
     app.getNavigationHelper().goToHomePage();
     List<ContactData> before = app.getContactHelper().getContactList();
-    app.getContactHelper().createContact(new ContactData("Test", "V", "Testovich", "Harli", "Title", "Company", "Russia", "89995554466", "test@gmail.com", "Work"));
+    ContactData contact = new ContactData("Dmitrii", "V", "Test", "Harli", "Title", "Company", "Russia", "89995554466", "test@gmail.com", "Work");
+    app.getContactHelper().createContact(contact);
     List<ContactData> after = app.getContactHelper().getContactList();
     Assert.assertEquals(after.size(), before.size() + 1);
 
-    after.remove(after.size() - 1);
+    before.add(contact);
+    Comparator<? super ContactData> byLastName = (c1, c2) -> String.CASE_INSENSITIVE_ORDER.compare(c1.getLastname(), c2.getLastname());
+    before.sort(byLastName);
+    after.sort(byLastName);
     Assert.assertEquals(after, before);
   }
 }

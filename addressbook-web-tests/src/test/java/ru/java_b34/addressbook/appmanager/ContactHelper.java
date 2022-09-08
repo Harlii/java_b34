@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.java_b34.addressbook.model.ContactData;
-import ru.java_b34.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +51,8 @@ public class ContactHelper extends HelperBase {
     assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
   }
 
-  public void initContactModification() {
-    click(By.cssSelector("img[alt='Edit']"));
+  public void initContactModification(int index) {
+    wd.findElements(By.cssSelector("img[title='Edit']")).get(index).click();
   }
 
   public void submitContactModification() {
@@ -68,9 +67,9 @@ public class ContactHelper extends HelperBase {
   }
 
   public void modificationContact(ContactData contact, int index) {
-    manager.getNavigationHelper().goToContactPage();
+    manager.getNavigationHelper().goToHomePage();
     manager.getContactHelper().selectContact(index);
-    manager.getContactHelper().initContactModification();
+    manager.getContactHelper().initContactModification(index);
     fillContactForm(contact, false);
     submitContactModification();
     manager.getNavigationHelper().goToHomePage();
