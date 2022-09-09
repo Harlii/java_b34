@@ -1,6 +1,7 @@
 package ru.java_b34.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.GroupData;
@@ -10,17 +11,22 @@ import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
+  @BeforeMethod
+  public void ensurePreconditions() {
+    String group = "Work";
+    app.goTo().groupPage();
+    if (! app.group().isThereAGroup(group)) {
+      app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
+    }
+  }
+
   @Test
   public void testContactCreation() {
-    app.getNavigationHelper().goToGroupPage();
-    if (! app.getGroupHelper().isThereAGroup("Work")) {
-      app.getGroupHelper().createGroup(new GroupData("Work", "Work_logo", "Work_comment"));
-    }
-    app.getNavigationHelper().goToHomePage();
-    List<ContactData> before = app.getContactHelper().getContactList();
+    app.goTo().homePage();
+    List<ContactData> before = app.contact().list();
     ContactData contact = new ContactData("Dmitrii", "V", "Test", "Harli", "Title", "Company", "Russia", "89995554466", "test@gmail.com", "Work");
-    app.getContactHelper().createContact(contact);
-    List<ContactData> after = app.getContactHelper().getContactList();
+    app.contact().create(contact);
+    List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size() + 1);
 
     before.add(contact);

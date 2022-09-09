@@ -59,20 +59,27 @@ public class ContactHelper extends HelperBase {
     click(By.name("update"));
   }
 
-  public void createContact(ContactData contact) {
-    manager.getNavigationHelper().goToContactPage();
+  public void create(ContactData contact) {
+    manager.goTo().newContact();
     fillContactForm(contact, true);
     submitContactCreation();
-    manager.getNavigationHelper().goToHomePage();
+    manager.goTo().homePage();
   }
 
-  public void modificationContact(ContactData contact, int index) {
-    manager.getNavigationHelper().goToHomePage();
-    manager.getContactHelper().selectContact(index);
-    manager.getContactHelper().initContactModification(index);
+  public void delete(int index) {
+    manager.goTo().homePage();
+    selectContact(index);
+    deleteSelectedContact();
+    manager.goTo().homePage();
+  }
+
+  public void modify(ContactData contact, int index) {
+    manager.goTo().homePage();
+    manager.contact().selectContact(index);
+    manager.contact().initContactModification(index);
     fillContactForm(contact, false);
     submitContactModification();
-    manager.getNavigationHelper().goToHomePage();
+    manager.goTo().homePage();
   }
 
   public boolean isThereAContact() {
@@ -80,11 +87,11 @@ public class ContactHelper extends HelperBase {
   }
 
   public int getContactCount() {
-    manager.getNavigationHelper().goToHomePage();
+    manager.goTo().homePage();
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<ContactData> getContactList() {
+  public List<ContactData> list() {
     List<ContactData> contacts = new ArrayList<ContactData>();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {

@@ -46,37 +46,44 @@ public class GroupHelper extends HelperBase {
     click(By.name("update"));
   }
 
-  public void createGroup(GroupData group) {
-    manager.getNavigationHelper().goToGroupPage();
+  public void create(GroupData group) {
+    manager.goTo().groupPage();
     initGroupCreation();
     fillGroupForm(group);
     submitGroupCreation();
-    manager.getNavigationHelper().goToGroupPage();
+    manager.goTo().groupPage();
+  }
+
+  public void delete(int index) {
+    manager.goTo().groupPage();
+    selectGroup(index);
+    deleteSelectedGroup();
+    manager.goTo().groupPage();
   }
 
   public boolean isThereAGroup() {
     return isElementPresent(By.name("selected[]"));
   }
 
-  public boolean isThereAGroup(String name) {
-    return isElementPresent(By.xpath("//span[.='" + name + "']"));
+  public boolean isThereAGroup(String group) {
+    return isElementPresent(By.xpath("//span[.='" + group + "']"));
   }
 
-  public void modificationGroup(GroupData group, int index) {
-    manager.getNavigationHelper().goToGroupPage();
+  public void modify(GroupData group, int index) {
+    manager.goTo().groupPage();
     selectGroup(index);
     initGroupModification();
     fillGroupForm(group);
     submitGroupModification();
-    manager.getNavigationHelper().goToGroupPage();
+    manager.goTo().groupPage();
   }
 
   public int getGroupCount() {
-    manager.getNavigationHelper().goToGroupPage();
+    manager.goTo().groupPage();
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<GroupData> getGroupList() {
+  public List<GroupData> list() {
     List<GroupData> groups = new ArrayList<GroupData>();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for (WebElement element : elements ) {

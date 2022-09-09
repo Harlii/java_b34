@@ -1,27 +1,21 @@
 package ru.java_b34.addressbook.tests;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.GroupData;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class GroupCreationTests extends TestBase {
 
-  WebDriver wd;
-
   @Test
   public void testGroupCreation() {
-    app.getNavigationHelper().goToGroupPage();
-    List<GroupData> before = app.getGroupHelper().getGroupList();
-    GroupData group = new GroupData("Test3", "Work_logo", "Work_comment");
-    app.getGroupHelper().createGroup(group);
-    app.getNavigationHelper().goToGroupPage();
-    List<GroupData> after = app.getGroupHelper().getGroupList();
+    app.goTo().groupPage();
+    List<GroupData> before = app.group().list();
+    GroupData group = new GroupData("Work", "Work_logo", "Work_comment");
+    app.group().create(group);
+    List<GroupData> after = app.group().list();
     Assert.assertEquals(after.size(), before.size() + 1);
 
     before.add(group);
