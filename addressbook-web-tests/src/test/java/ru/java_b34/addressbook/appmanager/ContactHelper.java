@@ -92,7 +92,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public List<ContactData> list() {
-    List<ContactData> contacts = new ArrayList<ContactData>();
+    List<ContactData> contacts = new ArrayList<>();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       List<WebElement> cell = element.findElements(By.tagName("td"));
@@ -100,7 +100,7 @@ public class ContactHelper extends HelperBase {
       String firstname = cell.get(2).getText();
       String email = cell.get(4).getText();
       String homenumber = cell.get(5).getText();
-      ContactData contact = new ContactData(firstname, null, lastname, null, null, null, null, homenumber, email, null);
+      ContactData contact = new ContactData().withFirstname(firstname).withLastname(lastname).withHomenumber(homenumber).withEmail(email);
       contacts.add(contact);
     }
     return contacts;

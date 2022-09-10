@@ -19,7 +19,9 @@ public class ContactDeletionTests extends TestBase {
       if (! app.group().isThereAGroup(group)) {
         app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
       }
-      app.contact().create(new ContactData("Dmitrii", "V", "Kharlan", "Harli", "Title", "Company", "Russia", "89995554466", "test@gmail.com", group));
+      app.contact().create(new ContactData()
+              .withFirstname("Dmitrii").withMiddlename("V").withLastname("Kharlan").withNickname("Harli").withTitle("Title").withCompany("Company")
+              .withAddress("Russia").withHomenumber("89995554466").withEmail("test@gmail.com").withGroup(group));
     }
   }
 

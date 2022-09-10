@@ -20,7 +20,9 @@ public class ContactModificationTests extends TestBase {
       if (! app.group().isThereAGroup(group)) {
         app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
       }
-      app.contact().create(new ContactData("Dmitrii", "V", "Kharlan", "Harli", "Title", "Company", "Russia", "89995554466", "test@gmail.com", group));
+      app.contact().create(new ContactData()
+              .withFirstname("Dmitrii").withMiddlename("V").withLastname("Kharlan").withNickname("Harli").withTitle("Title").withCompany("Company")
+              .withAddress("Russia").withHomenumber("89995554466").withEmail("test@gmail.com").withGroup(group));
     }
   }
 
@@ -29,7 +31,10 @@ public class ContactModificationTests extends TestBase {
     app.goTo().homePage();
     List<ContactData> before = app.contact().list();
     int index = 0;
-    ContactData contact = new ContactData("Dmitrii_modification", "V_modification", "West", "Harli_modification", "Title_modification", "Company_modification", "Russia_modification", "89995554466", "test_modification@gmail.com", null);
+    ContactData contact = new ContactData()
+            .withFirstname("Dmitrii_modification").withMiddlename("V_modification").withLastname("Kharlan_modification").withNickname("Harli_modification")
+            .withTitle("Title_modification").withCompany("Company_modification").withAddress("Russia_modification").withHomenumber("89995554466")
+            .withEmail("test_modification@gmail.com");
     app.contact().modify(contact, index);
     List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size());

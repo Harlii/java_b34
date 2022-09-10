@@ -5,7 +5,9 @@ import org.openqa.selenium.WebElement;
 import ru.java_b34.addressbook.model.GroupData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GroupHelper extends HelperBase {
 
@@ -30,8 +32,8 @@ public class GroupHelper extends HelperBase {
     click(By.name("submit"));
   }
 
-  public void selectGroup(int index) {
-    wd.findElements(By.name("selected[]")).get(index).click();
+  private void selectGroupById(int id) {
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
 
   public void deleteSelectedGroup() {
@@ -54,10 +56,19 @@ public class GroupHelper extends HelperBase {
     manager.goTo().groupPage();
   }
 
-  public void delete(int index) {
+  public void delete(GroupData group) {
     manager.goTo().groupPage();
-    selectGroup(index);
+    selectGroupById(group.getId());
     deleteSelectedGroup();
+    manager.goTo().groupPage();
+  }
+
+  public void modify(GroupData group) {
+    manager.goTo().groupPage();
+    selectGroupById(group.getId());
+    initGroupModification();
+    fillGroupForm(group);
+    submitGroupModification();
     manager.goTo().groupPage();
   }
 
@@ -69,22 +80,13 @@ public class GroupHelper extends HelperBase {
     return isElementPresent(By.xpath("//span[.='" + group + "']"));
   }
 
-  public void modify(GroupData group, int index) {
-    manager.goTo().groupPage();
-    selectGroup(index);
-    initGroupModification();
-    fillGroupForm(group);
-    submitGroupModification();
-    manager.goTo().groupPage();
-  }
-
   public int getGroupCount() {
     manager.goTo().groupPage();
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<GroupData> list() {
-    List<GroupData> groups = new ArrayList<GroupData>();
+  public Set<GroupData> all() {
+    Set<GroupData> groups = new HashSet<>();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for (WebElement element : elements ) {
       String name = element.getText();
@@ -94,4 +96,5 @@ public class GroupHelper extends HelperBase {
     }
     return groups;
   }
+
 }
