@@ -6,8 +6,7 @@ import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.GroupData;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 
 public class ContactModificationTests extends TestBase {
 
@@ -15,7 +14,7 @@ public class ContactModificationTests extends TestBase {
   public void ensurePreconditions() {
     app.goTo().homePage();
     String group = "Work";
-    if (app.contact().list().size() == 0) {
+    if (app.contact().all().size() == 0) {
       app.goTo().groupPage();
       if (! app.group().isThereAGroup(group)) {
         app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
@@ -29,21 +28,18 @@ public class ContactModificationTests extends TestBase {
   @Test
   public void testContactModification() {
     app.goTo().homePage();
-    List<ContactData> before = app.contact().list();
-    int index = 0;
+    Set<ContactData> before = app.contact().all();
+    ContactData modifiedContact = before.iterator().next();
     ContactData contact = new ContactData()
-            .withFirstname("Dmitrii_modification").withMiddlename("V_modification").withLastname("Kharlan_modification").withNickname("Harli_modification")
-            .withTitle("Title_modification").withCompany("Company_modification").withAddress("Russia_modification").withHomenumber("89995554466")
-            .withEmail("test_modification@gmail.com");
-    app.contact().modify(contact, index);
-    List<ContactData> after = app.contact().list();
+            .withId(modifiedContact.getId()).withFirstname("Dmitrii_modification").withMiddlename("V_modification").withLastname("Kharlan_modification")
+            .withNickname("Harli_modification").withTitle("Title_modification").withCompany("Company_modification").withAddress("Russia_modification")
+            .withHomenumber("89995554466").withEmail("test_modification@gmail.com");
+    app.contact().modify(contact);
+    Set<ContactData> after = app.contact().all();
     Assert.assertEquals(after.size(), before.size());
 
-    before.remove(index);
+    before.remove(modifiedContact);
     before.add(contact);
-    Comparator<? super ContactData> byLastName = (c1, c2) -> String.CASE_INSENSITIVE_ORDER.compare(c1.getLastname(), c2.getLastname());
-    before.sort(byLastName);
-    after.sort(byLastName);
     Assert.assertEquals(after, before);
   }
 }

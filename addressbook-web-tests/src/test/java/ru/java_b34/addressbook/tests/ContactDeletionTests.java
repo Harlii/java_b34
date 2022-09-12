@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.GroupData;
 
-import java.util.List;
+import java.util.Set;
 
 public class ContactDeletionTests extends TestBase {
 
@@ -14,7 +14,7 @@ public class ContactDeletionTests extends TestBase {
   public void ensurePreconditions() {
     app.goTo().homePage();
     String group = "Work";
-    if (app.contact().list().size() == 0) {
+    if (app.contact().all().size() == 0) {
       app.goTo().groupPage();
       if (! app.group().isThereAGroup(group)) {
         app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
@@ -28,13 +28,13 @@ public class ContactDeletionTests extends TestBase {
   @Test
   public void testContactDeletionTests() {
     app.goTo().homePage();
-    List<ContactData> before = app.contact().list();
-    int index = 0;
-    app.contact().delete(index);
-    List<ContactData> after = app.contact().list();
+    Set<ContactData> before = app.contact().all();
+    ContactData deletedContact = before.iterator().next();
+    app.contact().delete(deletedContact);
+    Set<ContactData> after = app.contact().all();
     Assert.assertEquals(after.size(), before.size() - 1);
 
-    before.remove(index);
+    before.remove(deletedContact);
     Assert.assertEquals(after, before);
   }
 }
