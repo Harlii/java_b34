@@ -5,9 +5,7 @@ import org.openqa.selenium.WebElement;
 import ru.java_b34.addressbook.model.GroupData;
 import ru.java_b34.addressbook.model.Groups;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GroupHelper extends HelperBase {
 
@@ -83,7 +81,7 @@ public class GroupHelper extends HelperBase {
     return isElementPresent(By.xpath("//span[.='" + group + "']"));
   }
 
-  public int getGroupCount() {
+  public int count () {
     manager.goTo().groupPage();
     return wd.findElements(By.name("selected[]")).size();
   }

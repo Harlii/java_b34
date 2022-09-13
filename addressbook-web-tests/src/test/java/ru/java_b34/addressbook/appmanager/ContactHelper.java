@@ -7,9 +7,7 @@ import org.testng.Assert;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.Contacts;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.testng.Assert.assertTrue;
 
@@ -91,7 +89,7 @@ public class ContactHelper extends HelperBase {
     return isElementPresent(By.name("selected[]"));
   }
 
-  public int getContactCount() {
+  public int count() {
     manager.goTo().homePage();
     return wd.findElements(By.name("selected[]")).size();
   }
