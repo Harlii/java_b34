@@ -38,8 +38,9 @@ public class GroupData {
     return id;
   }
 
-  public void setId(int id) {
+  public GroupData setId(int id) {
     this.id = id;
+    return this;
   }
 
   @Override
