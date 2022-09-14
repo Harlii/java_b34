@@ -4,14 +4,16 @@ import java.util.Objects;
 
 public class ContactData {
   private int id;
-  private String firstname;
-  private String middlename;
-  private String lastname;
+  private String firstName;
+  private String middleName;
+  private String lastName;
   private String nickname;
   private String title;
   private String company;
   private String address;
-  private String homenumber;
+  private String homePhone;
+  private String mobilePhone;
+  private String workPhone;
   private String email;
   private String group;
 
@@ -19,16 +21,16 @@ public class ContactData {
     return id;
   }
 
-  public String getFirstname() {
-    return firstname;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public String getMiddlename() {
-    return middlename;
+  public String getMiddleName() {
+    return middleName;
   }
 
-  public String getLastname() {
-    return lastname;
+  public String getLastName() {
+    return lastName;
   }
 
   public String getNickname() {
@@ -47,8 +49,16 @@ public class ContactData {
     return address;
   }
 
-  public String getHomenumber() {
-    return homenumber;
+  public String getHomePhone() {
+    return homePhone;
+  }
+
+  public String getMobilePhone() {
+    return mobilePhone;
+  }
+
+  public String getWorkPhone() {
+    return workPhone;
   }
 
   public String getEmail() {
@@ -65,17 +75,17 @@ public class ContactData {
   }
 
   public ContactData withFirstname(String firstname) {
-    this.firstname = firstname;
+    this.firstName = firstname;
     return this;
   }
 
   public ContactData withMiddlename(String middlename) {
-    this.middlename = middlename;
+    this.middleName = middlename;
     return this;
   }
 
   public ContactData withLastname(String lastname) {
-    this.lastname = lastname;
+    this.lastName = lastname;
     return this;
   }
 
@@ -99,8 +109,18 @@ public class ContactData {
     return this;
   }
 
-  public ContactData withHomenumber(String homenumber) {
-    this.homenumber = homenumber;
+  public ContactData withHomePhone(String homenumber) {
+    this.homePhone = homenumber;
+    return this;
+  }
+
+  public ContactData withMobilePhone(String mobilephone) {
+    this.mobilePhone = mobilephone;
+    return this;
+  }
+
+  public ContactData withWorkPhone(String workPhone) {
+    this.workPhone = workPhone;
     return this;
   }
 
@@ -118,9 +138,9 @@ public class ContactData {
   public String toString() {
     return "ContactData{" +
             "id=" + id +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            ", homenumber='" + homenumber + '\'' +
+            ", firstname='" + firstName + '\'' +
+            ", lastname='" + lastName + '\'' +
+            ", homenumber='" + homePhone + '\'' +
             ", email='" + email + '\'' +
             '}';
   }
@@ -133,18 +153,18 @@ public class ContactData {
     ContactData that = (ContactData) o;
 
     if (id != that.id) return false;
-    if (!Objects.equals(firstname, that.firstname)) return false;
-    if (!Objects.equals(lastname, that.lastname)) return false;
-    if (!Objects.equals(homenumber, that.homenumber)) return false;
+    if (!Objects.equals(firstName, that.firstName)) return false;
+    if (!Objects.equals(lastName, that.lastName)) return false;
+    if (!Objects.equals(homePhone, that.homePhone)) return false;
     return Objects.equals(email, that.email);
   }
 
   @Override
   public int hashCode() {
     int result = id;
-    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-    result = 31 * result + (homenumber != null ? homenumber.hashCode() : 0);
+    result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+    result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+    result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
     return result;
   }
