@@ -14,13 +14,15 @@ public class ContactData {
   private String homePhone;
   private String mobilePhone;
   private String workPhone;
-  private String email;
-  private String group;
 
+  private String allPhones;
+
+  private String email;
+
+  private String group;
   public int getId() {
     return id;
   }
-
   public String getFirstName() {
     return firstName;
   }
@@ -59,6 +61,10 @@ public class ContactData {
 
   public String getWorkPhone() {
     return workPhone;
+  }
+
+  public String getAllPhones() {
+    return allPhones;
   }
 
   public String getEmail() {
@@ -124,6 +130,11 @@ public class ContactData {
     return this;
   }
 
+  public ContactData withAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this;
+  }
+
   public ContactData withEmail(String email) {
     this.email = email;
     return this;
@@ -138,9 +149,13 @@ public class ContactData {
   public String toString() {
     return "ContactData{" +
             "id=" + id +
-            ", firstname='" + firstName + '\'' +
-            ", lastname='" + lastName + '\'' +
-            ", homenumber='" + homePhone + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", address='" + address + '\'' +
+            ", homePhone='" + homePhone + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            ", workPhone='" + workPhone + '\'' +
+            ", allPhones='" + allPhones + '\'' +
             ", email='" + email + '\'' +
             '}';
   }
@@ -155,7 +170,11 @@ public class ContactData {
     if (id != that.id) return false;
     if (!Objects.equals(firstName, that.firstName)) return false;
     if (!Objects.equals(lastName, that.lastName)) return false;
+    if (!Objects.equals(address, that.address)) return false;
     if (!Objects.equals(homePhone, that.homePhone)) return false;
+    if (!Objects.equals(mobilePhone, that.mobilePhone)) return false;
+    if (!Objects.equals(workPhone, that.workPhone)) return false;
+    if (!Objects.equals(allPhones, that.allPhones)) return false;
     return Objects.equals(email, that.email);
   }
 
@@ -164,7 +183,11 @@ public class ContactData {
     int result = id;
     result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
     result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+    result = 31 * result + (address != null ? address.hashCode() : 0);
     result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
+    result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+    result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
+    result = 31 * result + (allPhones != null ? allPhones.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
     return result;
   }

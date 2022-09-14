@@ -1,12 +1,33 @@
 package ru.java_b34.addressbook.tests;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
+import ru.java_b34.addressbook.model.GroupData;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactPhoneTests extends TestBase {
+
+  @BeforeMethod
+  public void ensurePreconditions() {
+    app.goTo().homePage();
+    String group = "Work";
+    if (app.contact().all().size() == 0) {
+      app.goTo().groupPage();
+      if (! app.group().isThereAGroup(group)) {
+        app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
+      }
+      app.contact().create(new ContactData()
+              .withFirstname("Dmitrii").withMiddlename("V").withLastname("Kharlan").withNickname("Harli").withTitle("Title").withCompany("Company")
+              .withAddress("Russia, str. Kosmonavtov\n33-10").withHomePhone("+ 7 (999) 666 33 22").withMobilePhone("22-22-22").withWorkPhone("33 33 33")
+              .withEmail("test@gmail.com").withGroup(group));
+    }
+  }
 
   @Test
   public void testContactPhones() {
@@ -14,12 +35,19 @@ public class ContactPhoneTests extends TestBase {
     ContactData contact = app.contact().all().iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
-    assertThat(contact.getHomePhone(), equalTo(cleaned(contactInfoFromEditForm.getHomePhone())));
-    assertThat(contact.getMobilePhone(), equalTo(cleaned(contactInfoFromEditForm.getMobilePhone())));
-    assertThat(contact.getWorkPhone(), equalTo(cleaned(contactInfoFromEditForm.getWorkPhone())));
+    assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
+    assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
+    assertThat(contact.getEmail(), equalTo(contactInfoFromEditForm.getEmail()));
   }
 
-  public String cleaned(String phone) {
+  private String mergePhones(ContactData contact) {
+    return Arrays.asList(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone())
+            .stream().filter(s -> ! s.equals(""))
+            .map(ContactPhoneTests::cleaned)
+            .collect(Collectors.joining("\n"));
+  }
+
+  public static String cleaned(String phone) {
    return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
   }
 }
