@@ -6,6 +6,8 @@ import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.Contacts;
 import ru.java_b34.addressbook.model.GroupData;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -24,9 +26,9 @@ public class ContactCreationTests extends TestBase {
   public void testContactCreation() {
     app.goTo().homePage();
     Contacts before = app.contact().all();
+    File photo = new File("src/test/resources/avatar.jpg");
     ContactData contact = new ContactData()
-            .withFirstname("Dmitrii").withMiddlename("V").withLastname("Kharlan").withNickname("Harli").withTitle("Title").withCompany("Company")
-            .withAddress("Russia").withHomePhone("89995554466").withEmail("test@gmail.com").withGroup(group);
+            .withFirstname("Dmitrii").withMiddlename("V").withLastname("Kharlan").withAddress("Russia").withGroup(group).withPhoto(photo);
     app.contact().create(contact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.contact().all();

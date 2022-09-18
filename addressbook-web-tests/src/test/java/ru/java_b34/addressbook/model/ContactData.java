@@ -1,5 +1,6 @@
 package ru.java_b34.addressbook.model;
 
+import java.io.File;
 import java.util.Objects;
 
 public class ContactData {
@@ -20,9 +21,12 @@ public class ContactData {
   private String email3;
   private String allEmails;
   private String group;
+  private File photo;
+
   public int getId() {
     return id;
   }
+
   public String getFirstName() {
     return firstName;
   }
@@ -85,6 +89,10 @@ public class ContactData {
 
   public String getGroup() {
     return group;
+  }
+
+  public File getPhoto() {
+    return photo;
   }
 
   public ContactData withId(int id) {
@@ -172,6 +180,11 @@ public class ContactData {
     return this;
   }
 
+  public ContactData withPhoto(File photo) {
+    this.photo = photo;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "ContactData{" +
@@ -179,11 +192,8 @@ public class ContactData {
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", address='" + address + '\'' +
-            ", homePhone='" + homePhone + '\'' +
-            ", mobilePhone='" + mobilePhone + '\'' +
-            ", workPhone='" + workPhone + '\'' +
             ", allPhones='" + allPhones + '\'' +
-            ", email='" + email + '\'' +
+            ", allEmails='" + allEmails + '\'' +
             '}';
   }
 
@@ -197,12 +207,7 @@ public class ContactData {
     if (id != that.id) return false;
     if (!Objects.equals(firstName, that.firstName)) return false;
     if (!Objects.equals(lastName, that.lastName)) return false;
-    if (!Objects.equals(address, that.address)) return false;
-    if (!Objects.equals(homePhone, that.homePhone)) return false;
-    if (!Objects.equals(mobilePhone, that.mobilePhone)) return false;
-    if (!Objects.equals(workPhone, that.workPhone)) return false;
-    if (!Objects.equals(allPhones, that.allPhones)) return false;
-    return Objects.equals(email, that.email);
+    return Objects.equals(address, that.address);
   }
 
   @Override
@@ -211,11 +216,6 @@ public class ContactData {
     result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
     result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
     result = 31 * result + (address != null ? address.hashCode() : 0);
-    result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
-    result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
-    result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
-    result = 31 * result + (allPhones != null ? allPhones.hashCode() : 0);
-    result = 31 * result + (email != null ? email.hashCode() : 0);
     return result;
   }
 }
