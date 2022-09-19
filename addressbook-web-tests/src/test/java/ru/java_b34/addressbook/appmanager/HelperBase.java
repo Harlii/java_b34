@@ -32,36 +32,36 @@ public class HelperBase {
     }
   }
 
-    public String closeAlertAndGetItsText() {
-      try {
-        Alert alert = wd.switchTo().alert();
-        String alertText = alert.getText();
-        if (acceptNextAlert) {
-          alert.accept();
-        } else {
-          alert.dismiss();
-        }
-        return alertText;
-      } finally {
-        acceptNextAlert = true;
+  public String closeAlertAndGetItsText() {
+    try {
+      Alert alert = wd.switchTo().alert();
+      String alertText = alert.getText();
+      if (acceptNextAlert) {
+        alert.accept();
+      } else {
+        alert.dismiss();
       }
-    }
-
-    public boolean isElementPresent(By locator) {
-      try {
-        wd.findElement(locator);
-        return true;
-      } catch (NoSuchElementException e) {
-        return false;
-      }
-    }
-
-    public boolean isAlertPresent() {
-      try {
-        wd.switchTo().alert();
-        return true;
-      } catch (NoAlertPresentException e) {
-        return false;
-      }
+      return alertText;
+    } finally {
+      acceptNextAlert = true;
     }
   }
+
+  public boolean isElementPresent(By locator) {
+    try {
+      wd.findElement(locator);
+      return true;
+    } catch (NoSuchElementException e) {
+      return false;
+    }
+  }
+
+  public boolean isAlertPresent() {
+    try {
+      wd.switchTo().alert();
+      return true;
+    } catch (NoAlertPresentException e) {
+      return false;
+    }
+  }
+}
