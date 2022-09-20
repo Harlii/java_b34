@@ -191,9 +191,6 @@ public class ContactData {
             "id=" + id +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
-            ", address='" + address + '\'' +
-            ", allPhones='" + allPhones + '\'' +
-            ", allEmails='" + allEmails + '\'' +
             '}';
   }
 
