@@ -1,5 +1,7 @@
 package ru.java_b34.addressbook.tests;
 
+import com.google.gson.Gson;
+import org.openqa.selenium.json.TypeToken;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -7,33 +9,40 @@ import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.Contacts;
 import ru.java_b34.addressbook.model.GroupData;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
-  String group = "Work";
 
   @BeforeMethod
   public void ensurePreconditions() {
+    String group = "Work";
     app.goTo().groupPage();
     if (! app.group().isThereAGroup(group)) {
-      app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
+      app.group().create(new GroupData(group, "Work_logo", "Work_comment"));
     }
   }
 
   @DataProvider
-  public Iterator<Object[]> validContacts() {
-    List<Object[]> list = new ArrayList<Object[]>();
-    File photo = new File("src/test/resources/avatar.jpg");
-    list.add(new Object[] {new ContactData().withFirstname("Dmitrii 1").withMiddlename("V").withLastname("Kharlan").withAddress("Russia").withGroup(group).withPhoto(photo)});
-    list.add(new Object[] {new ContactData().withFirstname("Dmitrii 2").withMiddlename("V").withLastname("Kharlan").withAddress("Russia").withGroup(group).withPhoto(photo)});
-    list.add(new Object[] {new ContactData().withFirstname("Dmitrii 3").withMiddlename("V").withLastname("Kharlan").withAddress("Russia").withGroup(group).withPhoto(photo)});
-    return list.iterator();
+  public Iterator<Object[]> validContacts() throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
+    String json = "";
+    String line = reader.readLine();
+    while (line != null) {
+      json += line;
+      line = reader.readLine();
+    }
+    Gson gson = new Gson();
+    List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType()); // List<ContactData>
+    return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
   @Test(dataProvider = "validContacts")

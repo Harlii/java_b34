@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="C:\Users\Dmitrii\Documents\GitHub\java_b34\addressbook-web-tests\src\test\resources\contacts.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="C:\Users\Dmitrii\Documents\GitHub\java_b34\addressbook-web-tests\src\test\resources\groups.csv">
           <value>
             <Attribute>

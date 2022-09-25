@@ -1,0 +1,20 @@
+<list>
+  <ru.java__b34.addressbook.model.ContactData>
+    <id>0</id>
+    <firstName>Firstname 0</firstName>
+    <lastName>Lastname 0</lastName>
+    <address>Address 0</address>
+  </ru.java__b34.addressbook.model.ContactData>
+  <ru.java__b34.addressbook.model.ContactData>
+    <id>0</id>
+    <firstName>Firstname 1</firstName>
+    <lastName>Lastname 1</lastName>
+    <address>Address 1</address>
+  </ru.java__b34.addressbook.model.ContactData>
+  <ru.java__b34.addressbook.model.ContactData>
+    <id>0</id>
+    <firstName>Firstname 2</firstName>
+    <lastName>Lastname 2</lastName>
+    <address>Address 2</address>
+  </ru.java__b34.addressbook.model.ContactData>
+</list>

@@ -1,16 +1,21 @@
 package ru.java_b34.addressbook.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.File;
 import java.util.Objects;
 
 public class ContactData {
   private int id;
+  @Expose
   private String firstName;
   private String middleName;
+  @Expose
   private String lastName;
   private String nickname;
   private String title;
   private String company;
+  @Expose
   private String address;
   private String homePhone;
   private String mobilePhone;
@@ -20,6 +25,7 @@ public class ContactData {
   private String email2;
   private String email3;
   private String allEmails;
+  @Expose
   private String group;
   private File photo;
 
