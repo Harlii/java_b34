@@ -19,13 +19,13 @@ public class GroupData {
   @Column(name = "group_id")
   private int id;
   @Column(name = "group_name")
-  private final String name;
+  private String name;
   @Column(name = "group_header")
   @Type(type = "text")
-  private final String header;
+  private String header;
   @Column(name = "group_footer")
   @Type(type = "text")
-  private final String footer;
+  private String footer;
 
   public GroupData(String name, String header, String footer) {
     this.id = Integer.MAX_VALUE;
@@ -40,6 +40,8 @@ public class GroupData {
     this.header = header;
     this.footer = footer;
   }
+
+  public GroupData() {}
 
   public String getName() {
     return name;
@@ -65,8 +67,10 @@ public class GroupData {
   @Override
   public String toString() {
     return "GroupData{" +
-            "id='" + id + '\'' +
+            "id=" + id +
             ", name='" + name + '\'' +
+            ", header='" + header + '\'' +
+            ", footer='" + footer + '\'' +
             '}';
   }
 
@@ -78,13 +82,17 @@ public class GroupData {
     GroupData groupData = (GroupData) o;
 
     if (id != groupData.id) return false;
-    return Objects.equals(name, groupData.name);
+    if (!Objects.equals(name, groupData.name)) return false;
+    if (!Objects.equals(header, groupData.header)) return false;
+    return Objects.equals(footer, groupData.footer);
   }
 
   @Override
   public int hashCode() {
     int result = id;
     result = 31 * result + (name != null ? name.hashCode() : 0);
+    result = 31 * result + (header != null ? header.hashCode() : 0);
+    result = 31 * result + (footer != null ? footer.hashCode() : 0);
     return result;
   }
 }

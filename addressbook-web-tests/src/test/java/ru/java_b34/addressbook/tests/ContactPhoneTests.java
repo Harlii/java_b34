@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.GroupData;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -17,15 +18,16 @@ public class ContactPhoneTests extends TestBase {
   public void ensurePreconditions() {
     app.goTo().homePage();
     String group = "Work";
-    if (app.contact().all().size() == 0) {
+    File photo = new File("src/test/resources/avatar.jpg");
+    if (app.db().contacts().size() == 0) {
       app.goTo().groupPage();
       if (! app.group().isThereAGroup(group)) {
-        app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
+        app.group().create(new GroupData(group, "Work_logo", "Work_comment"));
       }
       app.contact().create(new ContactData()
               .withFirstname("Dmitrii").withMiddlename("V").withLastname("Kharlan").withNickname("Harli").withTitle("Title").withCompany("Company")
               .withAddress("Russia, str. Kosmonavtov\n33-10").withHomePhone("+ 7 (999) 666 33 22").withMobilePhone("22-22-22").withWorkPhone("33 33 33")
-              .withEmail("test@gmail.com").withEmail2("test_2@gmail.com").withEmail3("test_3@gmail.com").withGroup(group));
+              .withEmail("test@gmail.com").withEmail2("test_2@gmail.com").withEmail3("test_3@gmail.com").withGroup(group).withPhoto(photo));
     }
   }
 

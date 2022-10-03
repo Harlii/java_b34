@@ -1,20 +1,19 @@
 [
   {
     "firstName": "Firstname 0",
+    "middleName": "Middlename 0",
     "lastName": "Lastname 0",
+    "nickname": "Nickname 0",
+    "title": "Title 0",
+    "company": "Company 0",
     "address": "Address 0",
-    "group": "Work"
-  },
-  {
-    "firstName": "Firstname 1",
-    "lastName": "Lastname 1",
-    "address": "Address 1",
-    "group": "Work"
-  },
-  {
-    "firstName": "Firstname 2",
-    "lastName": "Lastname 2",
-    "address": "Address 2",
-    "group": "Work"
+    "homePhone": "89995554466",
+    "mobilePhone": "+7(999)-666-55-44",
+    "workPhone": "22-33-44",
+    "email": "test@gmail.com",
+    "email2": "test_2@gmail.com",
+    "email3": "test_3@gmail.com",
+    "group": "Work",
+    "photo": "src\\test\\resources\\avatar.jpg"
   }
 ]
