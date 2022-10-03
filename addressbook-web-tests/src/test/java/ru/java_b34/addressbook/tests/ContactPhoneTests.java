@@ -40,6 +40,7 @@ public class ContactPhoneTests extends TestBase {
     assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
     assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
     assertThat(contact.getAllEmails(), equalTo(mergeEmails(contactInfoFromEditForm)));
+    verifyContactListInUI();
   }
 
   private String mergePhones(ContactData contact) {
