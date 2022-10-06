@@ -8,10 +8,7 @@ import ru.java_b34.addressbook.model.GroupData;
 
 import java.io.File;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-public class ContactDeletionTests extends TestBase {
+public class ContactAddToGroupTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions() {
@@ -30,14 +27,10 @@ public class ContactDeletionTests extends TestBase {
   }
 
   @Test
-  public void testContactDeletion() {
+  public void testContactAddToGroup() {
     app.goTo().homePage();
-    Contacts before = app.db().contacts();
-    ContactData deletedContact = before.iterator().next();
-    app.contact().delete(deletedContact);
-    assertThat(app.contact().count(), equalTo(before.size() - 1));
-    Contacts after = app.db().contacts();
-    assertThat(after, equalTo(before.without(deletedContact)));
-    verifyContactListInUI();
+    app.contact().selectGroup("[all]");
+    Contacts allContact = app.db().contacts();
+    app.contact().addToGroup(allContact, app.db().groups());
   }
 }

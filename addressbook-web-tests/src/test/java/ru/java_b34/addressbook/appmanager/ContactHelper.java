@@ -6,9 +6,14 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.Contacts;
+import ru.java_b34.addressbook.model.GroupData;
+import ru.java_b34.addressbook.model.Groups;
 
+import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.Assert.assertTrue;
 
 public class ContactHelper extends HelperBase {
@@ -37,7 +42,10 @@ public class ContactHelper extends HelperBase {
     attach(By.name("photo"), contactData.getPhoto());
 
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      if (contactData.getGroups().size() > 0) {
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+      }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -136,5 +144,39 @@ public class ContactHelper extends HelperBase {
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withHomePhone(home)
             .withMobilePhone(mobile).withWorkPhone(work).withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3);
+  }
+
+  public void selectGroup(String group) {
+    new Select(wd.findElement(By.name("group"))).selectByVisibleText(group);
+  }
+
+  public void addToGroup(Contacts allContacts, Groups allGroups) {
+    //ищем подходящий контакт
+    for (ContactData contact : allContacts) {
+      if (contact.getGroups().size() < allGroups.size()) {
+        for (GroupData group : contact.getGroups()) {
+          allGroups = allGroups.without(group);
+        }
+        int groupsBefore = contact.getGroups().size();
+        manager.contact().selectContactById(contact.getId());
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(allGroups.iterator().next().getName());
+        click(By.name("add"));
+        manager.goTo().homePage();
+        int groupsAfter = manager.db().getContactById(contact.getId()).getGroups().size();
+        assertThat(groupsAfter, equalTo(groupsBefore + 1));
+        break;
+      }
+    }
+    //если каждый контакт добавлен во все группы, то добавляем любой контакт в новую созданную группу
+    String newGroup = "New group " + new Date();
+    manager.group().create(new GroupData(newGroup, "New header", "New footer"));
+    manager.goTo().homePage();
+    ContactData contact = manager.db().contacts().iterator().next();
+    manager.contact().selectContactById(contact.getId());
+    new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(newGroup);
+    click(By.name("add"));
+    manager.goTo().homePage();
+    int groupsAfter = manager.db().getContactById(contact.getId()).getGroups().size();
+    assertThat(groupsAfter, equalTo(allGroups.size() + 1));
   }
 }

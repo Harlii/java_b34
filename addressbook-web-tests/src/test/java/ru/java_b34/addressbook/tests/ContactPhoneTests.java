@@ -27,7 +27,7 @@ public class ContactPhoneTests extends TestBase {
       app.contact().create(new ContactData()
               .withFirstname("Dmitrii").withMiddlename("V").withLastname("Kharlan").withNickname("Harli").withTitle("Title").withCompany("Company")
               .withAddress("Russia, str. Kosmonavtov\n33-10").withHomePhone("+ 7 (999) 666 33 22").withMobilePhone("22-22-22").withWorkPhone("33 33 33")
-              .withEmail("test@gmail.com").withEmail2("test_2@gmail.com").withEmail3("test_3@gmail.com").withGroup(group).withPhoto(photo));
+              .withEmail("test@gmail.com").withEmail2("test_2@gmail.com").withEmail3("test_3@gmail.com").withPhoto(photo));
     }
   }
 

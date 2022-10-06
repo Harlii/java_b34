@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.Contacts;
 import ru.java_b34.addressbook.model.GroupData;
+import ru.java_b34.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,10 +25,9 @@ public class ContactCreationTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions() {
-    String group = "Work";
     app.goTo().groupPage();
-    if (! app.group().isThereAGroup(group)) {
-      app.group().create(new GroupData(group, "Work_logo", "Work_comment"));
+    if (! app.group().isThereAGroup()) {
+      app.group().create(new GroupData("Work", "Work_logo", "Work_comment"));
     }
   }
 
@@ -48,6 +48,7 @@ public class ContactCreationTests extends TestBase {
 
   @Test(dataProvider = "validContacts")
   public void testContactCreation(ContactData contact) {
+    Groups groups = app.db().groups();
     app.goTo().homePage();
     Contacts before = app.db().contacts();
     app.contact().create(contact);
