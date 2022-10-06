@@ -150,7 +150,9 @@ public class ContactHelper extends HelperBase {
     new Select(wd.findElement(By.name("group"))).selectByVisibleText(group);
   }
 
-  public void addToGroup(Contacts allContacts, Groups allGroups) {
+  public void addToGroup() {
+    Contacts allContacts = manager.db().contacts();
+    Groups allGroups = manager.db().groups();
     //ищем подходящий контакт
     for (ContactData contact : allContacts) {
       if (contact.getGroups().size() < allGroups.size()) {
@@ -158,13 +160,13 @@ public class ContactHelper extends HelperBase {
           allGroups = allGroups.without(group);
         }
         int groupsBefore = contact.getGroups().size();
-        manager.contact().selectContactById(contact.getId());
+        selectContactById(contact.getId());
         new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(allGroups.iterator().next().getName());
         click(By.name("add"));
         manager.goTo().homePage();
         int groupsAfter = manager.db().getContactById(contact.getId()).getGroups().size();
         assertThat(groupsAfter, equalTo(groupsBefore + 1));
-        break;
+        return;
       }
     }
     //если каждый контакт добавлен во все группы, то добавляем любой контакт в новую созданную группу
@@ -172,11 +174,31 @@ public class ContactHelper extends HelperBase {
     manager.group().create(new GroupData(newGroup, "New header", "New footer"));
     manager.goTo().homePage();
     ContactData contact = manager.db().contacts().iterator().next();
-    manager.contact().selectContactById(contact.getId());
+    selectContactById(contact.getId());
     new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(newGroup);
     click(By.name("add"));
     manager.goTo().homePage();
     int groupsAfter = manager.db().getContactById(contact.getId()).getGroups().size();
     assertThat(groupsAfter, equalTo(allGroups.size() + 1));
+  }
+
+  public void deleteFromGroup() {
+    Groups allGroups = manager.db().groups();
+
+    for (GroupData group : allGroups) {
+      if (group.getContacts().size() > 0) {
+        int contactsBefore = group.getContacts().size();
+        selectGroup(group.getName());
+        ContactData contact = group.getContacts().iterator().next();
+        selectContactById(contact.getId());
+        click(By.name("remove"));
+        manager.goTo().homePage();
+        int contactsAfter = manager.db().getGrouptById(group.getId()).getContacts().size();
+        assertThat(contactsAfter, equalTo(contactsBefore - 1));
+        return;
+      }
+    }
+    addToGroup();
+    deleteFromGroup();
   }
 }

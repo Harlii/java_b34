@@ -50,4 +50,13 @@ public class DbHelper {
     session.close();
     return contact;
   }
+
+  public GroupData getGrouptById(int id) {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    GroupData group = (GroupData) session.createQuery("from GroupData where id = " + id).getSingleResult();
+    session.getTransaction().commit();
+    session.close();
+    return group;
+  }
 }
