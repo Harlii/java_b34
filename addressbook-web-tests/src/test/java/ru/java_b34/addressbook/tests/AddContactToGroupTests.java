@@ -5,8 +5,13 @@ import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.Contacts;
 import ru.java_b34.addressbook.model.GroupData;
+import ru.java_b34.addressbook.model.Groups;
 
 import java.io.File;
+import java.util.Date;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AddContactToGroupTests extends TestBase {
 
@@ -30,7 +35,33 @@ public class AddContactToGroupTests extends TestBase {
   public void testAddContactToGroup() {
     app.goTo().homePage();
     app.contact().selectGroup("[all]");
-    Contacts allContact = app.db().contacts();
-    app.contact().addToGroup();
+    Contacts allContacts = app.db().contacts();
+    Groups allGroups = app.db().groups();
+    ContactData randomContact = app.db().contacts().iterator().next();
+    int groupsBefore = randomContact.getGroups().size();
+    if (randomContact.getGroups().size() < allGroups.size()) {
+      app.contact().addToGroup(randomContact);
+      int groupsAfter = app.db().getContactById(randomContact.getId()).getGroups().size();
+      assertThat(groupsAfter, equalTo(groupsBefore + 1));
+    } else {
+      //ищем подходящий контакт из всех
+      for (ContactData contact : allContacts) {
+        if (contact.getGroups().size() < allGroups.size()) {
+          groupsBefore = contact.getGroups().size();
+          app.contact().addToGroup(contact);
+          int groupsAfter = app.db().getContactById(contact.getId()).getGroups().size();
+          assertThat(groupsAfter, equalTo(groupsBefore + 1));
+          return;
+        }
+      }
+      //если каждый контакт добавлен во все группы, то добавляем любой контакт в новую созданную группу
+      String newGroup = "New group " + new Date();
+      app.group().create(new GroupData(newGroup, "New header", "New footer"));
+      app.goTo().homePage();
+      app.contact().addToGroup(randomContact);
+      int groupsAfter = app.db().getContactById(randomContact.getId()).getGroups().size();
+      assertThat(groupsAfter, equalTo(groupsBefore + 1));
+    }
   }
+
 }

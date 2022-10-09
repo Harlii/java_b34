@@ -42,9 +42,8 @@ public class ContactHelper extends HelperBase {
     attach(By.name("photo"), contactData.getPhoto());
 
     if (creation) {
-      if (contactData.getGroups().size() > 0) {
-        Assert.assertTrue(contactData.getGroups().size() == 1);
-        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+      if (manager.db().groups().size() > 0) {
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(manager.db().groups().iterator().next().getName());
       }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -57,6 +56,10 @@ public class ContactHelper extends HelperBase {
 
   public void selectContactById(int id) {
     wd.findElement(By.cssSelector("input[id='" + id + "']")).click();
+  }
+
+  public void selectDropDown(By locator, String value) {
+    new Select(wd.findElement(locator)).selectByVisibleText(value);
   }
 
   public void deleteSelectedContact() {
@@ -150,55 +153,31 @@ public class ContactHelper extends HelperBase {
     new Select(wd.findElement(By.name("group"))).selectByVisibleText(group);
   }
 
-  public void addToGroup() {
-    Contacts allContacts = manager.db().contacts();
-    Groups allGroups = manager.db().groups();
-    //ищем подходящий контакт
-    for (ContactData contact : allContacts) {
-      if (contact.getGroups().size() < allGroups.size()) {
-        for (GroupData group : contact.getGroups()) {
-          allGroups = allGroups.without(group);
-        }
-        int groupsBefore = contact.getGroups().size();
-        selectContactById(contact.getId());
-        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(allGroups.iterator().next().getName());
-        click(By.name("add"));
-        manager.goTo().homePage();
-        int groupsAfter = manager.db().getContactById(contact.getId()).getGroups().size();
-        assertThat(groupsAfter, equalTo(groupsBefore + 1));
-        return;
-      }
-    }
-    //если каждый контакт добавлен во все группы, то добавляем любой контакт в новую созданную группу
-    String newGroup = "New group " + new Date();
-    manager.group().create(new GroupData(newGroup, "New header", "New footer"));
-    manager.goTo().homePage();
-    ContactData contact = manager.db().contacts().iterator().next();
-    selectContactById(contact.getId());
-    new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(newGroup);
+  public void confirmAddToGroup() {
     click(By.name("add"));
-    manager.goTo().homePage();
-    int groupsAfter = manager.db().getContactById(contact.getId()).getGroups().size();
-    assertThat(groupsAfter, equalTo(allGroups.size() + 1));
   }
 
-  public void deleteFromGroup() {
+  public void confirmRemoveFromGroup() {
+    click(By.name("remove"));
+  }
+
+  public void addToGroup(ContactData contact) {
     Groups allGroups = manager.db().groups();
-
-    for (GroupData group : allGroups) {
-      if (group.getContacts().size() > 0) {
-        int contactsBefore = group.getContacts().size();
-        selectGroup(group.getName());
-        ContactData contact = group.getContacts().iterator().next();
-        selectContactById(contact.getId());
-        click(By.name("remove"));
-        manager.goTo().homePage();
-        int contactsAfter = manager.db().getGrouptById(group.getId()).getContacts().size();
-        assertThat(contactsAfter, equalTo(contactsBefore - 1));
-        return;
-      }
+    for (GroupData group : contact.getGroups()) {
+      allGroups = allGroups.without(group);
     }
-    addToGroup();
-    deleteFromGroup();
+    selectContactById(contact.getId());
+    new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(allGroups.iterator().next().getName());
+    confirmAddToGroup();
+    manager.goTo().homePage();
   }
+
+  public void deleteFromGroup(GroupData group) {
+    selectGroup(group.getName());
+    ContactData contact = group.getContacts().iterator().next();
+    selectContactById(contact.getId());
+    confirmRemoveFromGroup();
+    manager.goTo().homePage();
+  }
+
 }
