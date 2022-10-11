@@ -7,9 +7,11 @@ repositories {
 dependencies {
     implementation 'org.testng:testng:7.5'
     implementation 'org.seleniumhq.selenium:selenium-java:4.4.0'
-    implementation 'org.hamcrest:java-hamcrest:2.0.0.0'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-    implementation 'commons-net:commons-net:3.8.0'
+    implementation 'org.hamcrest:java-hamcrest:2.0.0.0'                 // библиотека для сравнения двух строк, «matcher»-ом является equalTo(), функция же assertThat()
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'        // библиотека для работы через запросы http
+    implementation 'commons-net:commons-net:3.8.0'                      // библиотека для работы с ftp файлами
+    implementation 'org.subethamail:subethasmtp:3.1.7'                  // библиотека для отправки писем на email
+    implementation 'ru.lanwen.verbalregex:java-verbal-expressions:1.8'  // библиотека для построения регулярных выражений
 }
 
 test {

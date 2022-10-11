@@ -7,12 +7,12 @@ repositories {
 dependencies {
     implementation 'org.testng:testng:7.5'
     implementation 'org.seleniumhq.selenium:selenium-java:4.4.0'
-    implementation 'org.hamcrest:java-hamcrest:2.0.0.0'
-    implementation 'com.beust:jcommander:1.82'
-    implementation 'com.thoughtworks.xstream:xstream:1.4.19'
-    implementation 'com.google.code.gson:gson:2.9.1'
-    implementation 'mysql:mysql-connector-java:8.0.30'
-    implementation 'org.hibernate:hibernate-core:5.6.12.Final'
+    implementation 'org.hamcrest:java-hamcrest:2.0.0.0'             // библиотека для сравнения двух строк, «matcher»-ом является equalTo(), функция же assertThat()
+    implementation 'com.beust:jcommander:1.82'                      // библиотека для обработки оопций командной строки
+    implementation 'com.thoughtworks.xstream:xstream:1.4.19'        // библиотека для сериализации/десериализации xml
+    implementation 'com.google.code.gson:gson:2.9.1'                // библиотека для сериализации/десериализации json
+    implementation 'mysql:mysql-connector-java:8.0.30'              // библиотека для работы с mysql
+    implementation 'org.hibernate:hibernate-core:5.6.12.Final'      // библиотека для работы с orm
 }
 
 task testGroups (type: Test) {
