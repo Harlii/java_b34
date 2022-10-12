@@ -3,7 +3,6 @@ package ru.java_b34.addressbook.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
-import ru.java_b34.addressbook.model.Contacts;
 import ru.java_b34.addressbook.model.GroupData;
 import ru.java_b34.addressbook.model.Groups;
 
@@ -35,33 +34,20 @@ public class AddContactToGroupTests extends TestBase {
   public void testAddContactToGroup() {
     app.goTo().homePage();
     app.contact().selectGroup("[all]");
-    Contacts allContacts = app.db().contacts();
     Groups allGroups = app.db().groups();
     ContactData randomContact = app.db().contacts().iterator().next();
     int groupsBefore = randomContact.getGroups().size();
     if (randomContact.getGroups().size() < allGroups.size()) {
       app.contact().addToGroup(randomContact);
-      int groupsAfter = app.db().getContactById(randomContact.getId()).getGroups().size();
-      assertThat(groupsAfter, equalTo(groupsBefore + 1));
     } else {
-      //ищем подходящий контакт из всех
-      for (ContactData contact : allContacts) {
-        if (contact.getGroups().size() < allGroups.size()) {
-          groupsBefore = contact.getGroups().size();
-          app.contact().addToGroup(contact);
-          int groupsAfter = app.db().getContactById(contact.getId()).getGroups().size();
-          assertThat(groupsAfter, equalTo(groupsBefore + 1));
-          return;
-        }
-      }
-      //если каждый контакт добавлен во все группы, то добавляем любой контакт в новую созданную группу
-      String newGroup = "New group " + new Date();
-      app.group().create(new GroupData(newGroup, "New header", "New footer"));
+      //если рандомный контакт добавлен во все группы, то добавляем его в новую созданную группу
+      GroupData newGroup = new GroupData("New group " + new Date(), "New header", "New footer");
+      app.group().create(newGroup);
       app.goTo().homePage();
       app.contact().addToGroup(randomContact);
-      int groupsAfter = app.db().getContactById(randomContact.getId()).getGroups().size();
-      assertThat(groupsAfter, equalTo(groupsBefore + 1));
     }
+    int groupsAfter = app.db().getContactById(randomContact.getId()).getGroups().size();
+    assertThat(groupsAfter, equalTo(groupsBefore + 1));
   }
 
 }

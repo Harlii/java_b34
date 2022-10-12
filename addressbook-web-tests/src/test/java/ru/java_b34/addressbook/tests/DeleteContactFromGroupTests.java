@@ -1,12 +1,10 @@
 package ru.java_b34.addressbook.tests;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.java_b34.addressbook.model.ContactData;
 import ru.java_b34.addressbook.model.GroupData;
-import ru.java_b34.addressbook.model.Groups;
 
 import java.io.File;
 
@@ -35,25 +33,12 @@ public class DeleteContactFromGroupTests extends TestBase {
   @Test
   public void testDeleteContactFromGroup() {
     app.goTo().homePage();
-    Groups allGroups = app.db().groups();
     GroupData randomGroup = app.db().groups().iterator().next();
     int contactsBefore = randomGroup.getContacts().size();
     if (randomGroup.getContacts().size() > 0) {
       app.contact().deleteFromGroup(randomGroup);
-      int contactsAfter = app.db().getGrouptById(randomGroup.getId()).getContacts().size();
-      assertThat(contactsAfter, equalTo(contactsBefore - 1));
     } else {
-      //ищем подходящую группу из всех
-      for (GroupData group : allGroups) {
-        if (group.getContacts().size() > 0) {
-          contactsBefore = group.getContacts().size();
-          app.contact().deleteFromGroup(group);
-          int contactsAfter = app.db().getGrouptById(group.getId()).getContacts().size();
-          assertThat(contactsAfter, equalTo(contactsBefore - 1));
-          return;
-        }
-      }
-      //если ни в одной группе нет контактов, то добавляем рандомный контакт в рандомную группу
+      //если в рандомной группе нет контактов, то добавляем рандомный контакт в рандомную группу
       ContactData randomContact = app.db().contacts().iterator().next();
       app.contact().selectContactById(randomContact.getId());
       app.contact().selectDropDown(By.name("to_group"), randomGroup.getName());
@@ -64,9 +49,9 @@ public class DeleteContactFromGroupTests extends TestBase {
       randomGroup = app.db().getGrouptById(randomGroup.getId());
       contactsBefore = app.db().getGrouptById(randomGroup.getId()).getContacts().size();
       app.contact().deleteFromGroup(randomGroup);
-      int contactsAfter = app.db().getGrouptById(randomGroup.getId()).getContacts().size();
-      assertThat(contactsAfter, equalTo(contactsBefore - 1));
     }
+    int contactsAfter = app.db().getGrouptById(randomGroup.getId()).getContacts().size();
+    assertThat(contactsAfter, equalTo(contactsBefore - 1));
   }
 
 }
