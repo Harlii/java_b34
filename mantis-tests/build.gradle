@@ -12,6 +12,8 @@ dependencies {
     implementation 'commons-net:commons-net:3.8.0'                      // библиотека для работы с ftp файлами
     implementation 'org.subethamail:subethasmtp:3.1.7'                  // библиотека для отправки писем на email
     implementation 'ru.lanwen.verbalregex:java-verbal-expressions:1.8'  // библиотека для построения регулярных выражений
+    implementation 'mysql:mysql-connector-java:8.0.30'                  // библиотека для работы с mysql
+    implementation 'org.hibernate:hibernate-core:5.6.12.Final'          // библиотека для работы с orm
 }
 
 test {

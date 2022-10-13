@@ -1,7 +1,5 @@
 package ru.java_b34.mantis.tests;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.java_b34.mantis.model.MailMessage;
 import ru.lanwen.verbalregex.VerbalExpression;

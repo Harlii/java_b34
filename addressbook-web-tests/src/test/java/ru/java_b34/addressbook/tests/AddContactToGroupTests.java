@@ -35,19 +35,20 @@ public class AddContactToGroupTests extends TestBase {
     app.goTo().homePage();
     app.contact().selectGroup("[all]");
     Groups allGroups = app.db().groups();
-    ContactData randomContact = app.db().contacts().iterator().next();
-    int groupsBefore = randomContact.getGroups().size();
-    if (randomContact.getGroups().size() < allGroups.size()) {
-      app.contact().addToGroup(randomContact);
-    } else {
-      //если рандомный контакт добавлен во все группы, то добавляем его в новую созданную группу
-      GroupData newGroup = new GroupData("New group " + new Date(), "New header", "New footer");
-      app.group().create(newGroup);
-      app.goTo().homePage();
-      app.contact().addToGroup(randomContact);
-    }
-    int groupsAfter = app.db().getContactById(randomContact.getId()).getGroups().size();
-    assertThat(groupsAfter, equalTo(groupsBefore + 1));
+    System.out.println(allGroups);
+//    ContactData randomContact = app.db().contacts().iterator().next();
+//    int groupsBefore = randomContact.getGroups().size();
+//    if (randomContact.getGroups().size() < allGroups.size()) {
+//      app.contact().addToGroup(randomContact);
+//    } else {
+//      //если рандомный контакт добавлен во все группы, то добавляем его в новую созданную группу
+//      GroupData newGroup = new GroupData("New group " + new Date(), "New header", "New footer");
+//      app.group().create(newGroup);
+//      app.goTo().homePage();
+//      app.contact().addToGroup(randomContact);
+//    }
+//    int groupsAfter = app.db().getContactById(randomContact.getId()).getGroups().size();
+//    assertThat(groupsAfter, equalTo(groupsBefore + 1));
   }
 
 }

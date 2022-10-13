@@ -21,6 +21,8 @@ public class ApplicationManager {
   private FtpHelper ftp;
   private MailHelper mailHelper;
   private JamesHelper jamesHelper;
+  private DbHelper dbHelper;
+  private ResetPasswordHelper resetPasswordHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -85,6 +87,17 @@ public class ApplicationManager {
       jamesHelper = new JamesHelper(this); //если jamesHelper == null, то его  инициализируем
     }
     return jamesHelper; //ленивая инициализация
+  }
+
+  public DbHelper db() {
+    return dbHelper;
+  }
+
+  public ResetPasswordHelper resetPassword(){
+    if (resetPasswordHelper == null) {
+      resetPasswordHelper = new ResetPasswordHelper(this);
+    }
+    return resetPasswordHelper;
   }
 
 }
