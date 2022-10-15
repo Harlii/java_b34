@@ -28,11 +28,11 @@ public class RegistrationHelper extends HelperBase {
   public void goToManageUserPage(String username, String password) {
     wd.get(app.getProperty("web.baseUrl") + "/login.php");
     type(By.name("username"), username);
-    wd.findElement(By.cssSelector("input[value='submit']")).click();
+    click(By.cssSelector("input[value='submit']"));
     type(By.name("password"), password);
-    wd.findElement(By.cssSelector("input[value='submit']")).click();
-    wd.findElement(By.cssSelector("a[href='manage_overview_page.php']")).click();
-    wd.findElement(By.cssSelector("a[href='manage_user_page.php']")).click();
+    click(By.cssSelector("input[value='submit']"));
+    click(By.cssSelector("a[href='manage_overview_page.php']"));
+    click(By.cssSelector("a[href='manage_user_page.php']"));
   }
 
   public void selectUser() {

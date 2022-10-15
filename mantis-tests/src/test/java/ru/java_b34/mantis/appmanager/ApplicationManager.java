@@ -32,6 +32,7 @@ public class ApplicationManager {
   public void init() throws IOException {
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+    dbHelper = new DbHelper();
   }
 
   public void stop() {
@@ -69,7 +70,7 @@ public class ApplicationManager {
       } else if (browser.equals(BrowserType.FIREFOX)) {
         wd = new FirefoxDriver();
       }
-      wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+      wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
       wd.get(properties.getProperty("web.baseUrl"));
     }
     return wd;

@@ -21,16 +21,15 @@ public class ResetPasswordTests extends TestBase {
 
   @Test
   public void testResetPassword() throws Exception {
-//    long now = System.currentTimeMillis();
+    long now = System.currentTimeMillis();
     UserData admin = app.db().getUserByUsername(app.getProperty("web.adminLogin"));
 
     Users allUsers = app.db().users().without(admin);
-    UserData selectedUser = null;
+    UserData selectedUser;
     List<MailMessage> mailMessages;
-    String confirmationLink = "";
-    if (allUsers.size() < 1) {
-//      selectedUser = new UserData().withEmail(String.format("user%s@localhost", now)).withUsername(String.format("user%s", now));
-      selectedUser = new UserData().withEmail("user1@localhost").withUsername("user1");
+    String confirmationLink;
+    if (allUsers.size() == 0) {
+      selectedUser = new UserData().withEmail(String.format("user%s@localhost", now)).withUsername(String.format("user%s", now));
       app.registration().start(selectedUser.getUsername(), selectedUser.getEmail());
       mailMessages = app.mail().waitForMail(2, 10000);
       confirmationLink = findConfirmationLink(mailMessages, selectedUser.getEmail());

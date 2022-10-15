@@ -12,22 +12,22 @@ public class ResetPasswordHelper extends HelperBase {
   public void loginAdmin(String username, String password) {
     wd.get(app.getProperty("web.baseUrl") + "/login_page.php");
     type(By.name("username"), username);
-    wd.findElement(By.cssSelector("input[value='Вход']")).click();
+    click(By.cssSelector("input[type='submit']"));
     type(By.name("password"), password);
-    wd.findElement(By.cssSelector("input[value='Вход']")).click();
+    click(By.cssSelector("input[type='submit']"));
   }
 
   public void start(UserData selectedUser) {
-    wd.findElement(By.cssSelector("a[href='manager_overview_page.php']")).click();
-    wd.findElement(By.cssSelector("a[href='manager_user_page.php']")).click();
-    click(By.xpath("//a[text()='" + selectedUser.withId(selectedUser.getId()) + "']"));
-    wd.findElement(By.cssSelector("input[value='Сбросить пароль']")).click();
+    click(By.cssSelector("a[href*='manage_overview_page.php']"));
+    click(By.cssSelector("a[href*='manage_user_page.php']"));
+    click(By.xpath("//a[.='" + selectedUser.getUsername() + "']"));
+    click(By.cssSelector("input[value='Сбросить пароль']"));
   }
 
   public void finish(String confirmationLink, String newPassword) {
     wd.get(confirmationLink);
-    type(By.name("password"), newPassword);
-    type(By.name("password_confirm"), newPassword);
-    click(By.xpath("//*[@id=\"account-update-form\"]/fieldset/span/button/span['Изменить пользователя']"));
+    type(By.id("password"), newPassword);
+    type(By.id("password-confirm"), newPassword);
+    click(By.cssSelector("button[type='submit']"));
   }
 }

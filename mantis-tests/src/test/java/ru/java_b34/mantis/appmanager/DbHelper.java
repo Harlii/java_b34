@@ -33,7 +33,7 @@ public class DbHelper {
   public UserData getUserByUsername(String username) {
     Session session = sessionFactory.openSession();
     session.beginTransaction();
-    UserData result = (UserData) session.createQuery( "from UserData where username = " + username).getSingleResult();
+    UserData result = (UserData) session.createQuery( "from UserData where username = '" + username + "'").getSingleResult();
     session.getTransaction().commit();
     session.close();
     return result;
