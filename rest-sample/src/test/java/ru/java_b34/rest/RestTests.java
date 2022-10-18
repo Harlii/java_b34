@@ -14,7 +14,7 @@ import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
 
-public class RestTests {
+public class RestTests extends TestBase {
 
   @Test
   public void testCreateIssue() throws IOException {
@@ -45,4 +45,20 @@ public class RestTests {
     JsonElement parsed = new JsonParser().parse(json);
     return parsed.getAsJsonObject().get("issue_id").getAsInt();
   }
+
+  @Test
+  public void testCreateIssueWithSkip() throws IOException {
+    if(isIssueOpen(2325)){
+      skipIfNotFixed(2325);
+    } else{
+      Set<Issue> oldIssues = getIssues();
+      Issue newIssue = new Issue().withSubject("Test DKH-2 issue").withDescription("New test issue");
+      int issueId = createIssue(newIssue);
+      Set<Issue> newIssues = getIssues();
+      oldIssues.add(newIssue.withId(issueId));
+      assertEquals(newIssues, oldIssues);
+
+    }
+  }
+
 }
