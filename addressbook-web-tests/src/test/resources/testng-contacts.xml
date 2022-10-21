@@ -3,7 +3,11 @@
 <suite name="Suite1" verbose="1" >
     <test name="Contacts">
         <classes>
+            <class name="ru.java_b34.addressbook.tests.ContactCreationTests" />
+            <class name="ru.java_b34.addressbook.tests.ContactModificationTests" />
             <class name="ru.java_b34.addressbook.tests.ContactDeletionTests" />
+            <class name="ru.java_b34.addressbook.tests.AddContactToGroupTests" />
+            <class name="ru.java_b34.addressbook.tests.DeleteContactFromGroupTests" />
         </classes>
     </test>
 </suite>
