@@ -44,6 +44,7 @@ public class DeleteContactFromGroupTests extends TestBase {
       app.contact().selectDropDown(By.name("to_group"), randomGroup.getName());
       app.contact().confirmAddToGroup();
       app.goTo().homePage();
+      app.contact().selectGroup("[all]");
 
       //переопределяем рандомную группу, т.к. в нее был добавлен контакт. Производим удаление группы
       randomGroup = app.db().getGrouptById(randomGroup.getId());
